@@ -1,0 +1,85 @@
+﻿@using FNet.Mess.Models
+@using System.Data
+@model F0Model
+<style type="text/css">
+    #fnet_mess_views_f0_table table.mess-journal tr {
+        border-left: 1px solid black;
+    }
+
+    #fnet_mess_views_f0_table table.mess-journal th {
+        border-top: 1px solid black;
+        border-right: 1px solid black;
+        padding: 2px;
+    }
+
+    #fnet_mess_views_f0_table table.mess-journal td {
+        border-top: 1px solid black;
+        border-right: 1px solid black;
+        padding: 2px;
+    }
+
+    #fnet_mess_views_f0_table tr.table-head-row {
+        font-weight: bold;
+    }
+
+    #fnet_mess_views_f0_table tr.table-body-row:hover {
+        background-color: #ffff88;
+    }
+
+    #fnet_mess_views_f0_table tr.table-body-row-selected {
+        background-color: #aaffaa;
+    }
+</style>
+<div id="fnet_mess_views_f0_table" style="height: 100%;">
+    @if (Model != null && Model.Сообщения != null)
+    {
+        F0Model.ItemArray currRow = null;
+        <table class="mess-journal" style="margin: 6px;">
+            <tr class="table-head-row">
+                <th>Х</th>
+                <th>Дата</th>
+                <th>Отправитель</th>
+                <th>Тема</th>
+                <th style="display: none;">Содержание</th>
+                <th>Url</th>
+                <th>Rqp</th>
+            </tr>
+            @foreach (DataRow dr in Model.Сообщения.Rows)
+            {
+                currRow = F0Model.ItemArray.Create(dr);
+                <tr class="table-body-row" data-uid="@currRow.uid" data-url="@currRow.url" data-rqp="@currRow.rqp">
+                    @if (currRow.обработано == "True")
+                    {
+                        <td><input type="checkbox" name="обработано" checked="checked" data-modified="0" /></td>
+                    }
+                    else
+                    {
+                        <td><input type="checkbox" name="обработано" data-modified="0" /></td>
+                    }
+                    <td>@currRow.дата</td>
+                    <td>@currRow.отправитель</td>
+                    <td>@currRow.тема</td>
+                    <td style="display: none;"><textarea>@currRow.содержание</textarea></td>
+                    <td>@currRow.url</td>
+                    <td>@currRow.rqp</td>
+                </tr>
+            }
+            <tr style="border: 1px solid black"></tr>
+        </table>
+    }
+</div>
+<script type="text/javascript">
+    var FnetMessF0Table = (function () {
+        var rows = $('#fnet_mess_views_f0_table tr.table-body-row');
+        $('#fnet_mess_views_f0_table input[type="checkbox"]').change(function () {
+            $(this).attr('data-modified', '1');
+        });
+        rows.click(function () {
+            var row = $(this);
+            rows.removeClass('table-body-row-selected');
+            row.addClass('table-body-row-selected');
+            var detail = $('#fnet_mess_views_f0_index div.filtered_data_detail');
+            detail.html(row.find('textarea').val());
+        });
+    })();
+</script>
