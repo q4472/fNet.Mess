@@ -2,17 +2,10 @@
     @if (HttpContext.Current.IsDebuggingEnabled)
     {
         <div>Debugging is enabled.</div>
-        <input type="button" value="Go to the new page" onclick="FnetMessHomeIndex.goTo();" />
     }
 </div>
 <script type="text/javascript">
-    var FnetMessHomeIndex = (function () {
-        return {
-            goTo: function () {
-                Nskd.Server.SessionId = '00000000-0000-0000-0000-000000000000';
-                Nskd.Client.EnvVars.selectedMenuNodeUrl = '/mess/f0/';
-                Nskd.Server.gotoTheNewPage(null, '#_layout_content');
-            }
-        };
-    })();
+    Nskd.Server.SessionId = '00000000-0000-0000-0000-000000000000';
+    Nskd.Client.EnvVars.selectedMenuNodeUrl = '/mess/f0/';
+    Nskd.Server.gotoTheNewPage(null, '#_layout_content');
 </script>
