@@ -76,10 +76,21 @@
             var content = row.attr('data-content');
             var html = $('<textarea />').html(content).text()
             detail.html(html);
-            detail.find('span.fnet-href').click(function () {
-                var span = $(this);
+            var span = detail.find('span.fnet-href');
+            span.click(function () {
                 span.prop('disabled', true);
-                alert(span.html());
+                var url = span.attr('data-url');
+                var rqp = eval('(' + span.attr('data-rqp') + ')');
+                rqp.SessionId = Nskd.Server.SessionId;
+                rqp.Command = 'Fnet.AdminPages.F0.Get';
+                alert(Nskd.Json.toString(rqp));
+                Nskd.Http.post({
+                    url: url,
+                    rqp: rqp,
+                    done: function (data) {
+                        alert(data);
+                    }
+                });
             });
 
         });
