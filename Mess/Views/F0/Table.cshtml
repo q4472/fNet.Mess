@@ -40,14 +40,11 @@
                 <th>Дата</th>
                 <th>Отправитель</th>
                 <th>Тема</th>
-                <th style="display: none;">Содержание</th>
-                <th>Url</th>
-                <th>Rqp</th>
             </tr>
             @foreach (DataRow dr in Model.Сообщения.Rows)
             {
                 currRow = F0Model.ItemArray.Create(dr);
-                <tr class="table-body-row" data-uid="@currRow.uid" data-url="@currRow.url" data-rqp="@currRow.rqp">
+                <tr class="table-body-row" data-uid="@currRow.uid" data-content="@HttpUtility.HtmlEncode(currRow.содержание)">
                     @if (currRow.обработано == "True")
                     {
                         <td><input type="checkbox" name="обработано" checked="checked" data-modified="0" /></td>
@@ -59,9 +56,6 @@
                     <td>@currRow.дата</td>
                     <td>@currRow.отправитель</td>
                     <td>@currRow.тема</td>
-                    <td style="display: none;"><textarea>@currRow.содержание</textarea></td>
-                    <td>@currRow.url</td>
-                    <td>@currRow.rqp</td>
                 </tr>
             }
             <tr style="border: 1px solid black"></tr>
@@ -79,7 +73,15 @@
             rows.removeClass('table-body-row-selected');
             row.addClass('table-body-row-selected');
             var detail = $('#fnet_mess_views_f0_index div.filtered_data_detail');
-            detail.html(row.find('textarea').val());
+            var content = row.attr('data-content');
+            var html = $('<textarea />').html(content).text()
+            detail.html(html);
+            detail.find('span.fnet-href').click(function () {
+                var span = $(this);
+                span.prop('disabled', true);
+                alert(span.html());
+            });
+
         });
     })();
 </script>

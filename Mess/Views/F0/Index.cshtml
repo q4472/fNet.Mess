@@ -114,6 +114,7 @@
         var sectionFilter = mainDiv.find('div.section-filter');
         var sectionFilteredData = mainDiv.find('div.section-filtered_data');
         var filteredDataTable = sectionFilteredData.find('div.filtered_data_table');
+        var filteredDataDetail = sectionFilteredData.find('div.filtered_data_detail');
 
         $.datepicker.setDefaults({ dateFormat: 'dd.mm.y' });
         $('input.datepicker').datepicker();
@@ -140,6 +141,7 @@
                     }
                 });
                 filteredDataTable.html('');
+                filteredDataDetail.html('');
                 Nskd.Http.post({
                     url: '/mess/f0/applyfilter',
                     rqp: rqp,
@@ -163,6 +165,7 @@
                     rqp.Parameters.push({ Name: uid + name, Value: value });
                 });
                 filteredDataTable.html('');
+                filteredDataDetail.html('');
                 Nskd.Http.post({
                     url: '/mess/f0/save',
                     rqp: rqp,
