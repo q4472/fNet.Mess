@@ -1,0 +1,50 @@
+﻿@model FNet.Mess.Models.F0Model
+<style type="text/css">
+    #fnet_mess_views_f0_filter {
+        margin: 2px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+        #fnet_mess_views_f0_filter table tr {
+            height: 40px;
+        }
+
+        #fnet_mess_views_f0_filter table td {
+            padding: 2px;
+        }
+
+
+</style>
+<div id="fnet_mess_views_f0_filter">
+    <span style="font-size: 11pt; font-weight: bold;">Фильтр</span>
+    <br />
+    <br />
+    <table style="text-align: left;">
+        <tr>
+            <td>Все</td>
+            <td colspan="2"><input type="checkbox" name="все" /></td>
+        </tr>
+        <tr>
+            <td>Дата</td>
+            <td><input type="text" name="дата_min" class="datepicker" style="width: 60px;" /></td>
+            <td><input type="text" name="дата_max" class="datepicker" style="width: 60px;" /></td>
+        </tr>
+        <tr>
+            <td>Отправитель</td>
+            <td colspan="2"><input type="text" name="отправитель" style="width: 130px;" /></td>
+        </tr>
+        <tr>
+            <td>Тема</td>
+            <td colspan="2"><input type="text" name="тема" style="width: 130px;" /></td>
+        </tr>
+        <tr>
+            <td>Содержание</td>
+            <td colspan="2"><input type="text" name="содержание" style="width: 130px;" /></td>
+        </tr>
+    </table>
+    <br />
+    <input type="button" value="Применить" onclick="FnetMessViewsF0Index.applyFilter(this);" style="font-size: 11pt;" />
+</div>
+
+

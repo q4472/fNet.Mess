@@ -30,7 +30,7 @@
         background-color: #aaffaa;
     }
 </style>
-<div id="fnet_mess_views_f0_table" style="height: 100%;">
+<div id="fnet_mess_views_f0_table">
     @if (Model != null && Model.Сообщения != null)
     {
         F0Model.ItemArray currRow = null;
@@ -72,7 +72,7 @@
             var row = $(this);
             rows.removeClass('table-body-row-selected');
             row.addClass('table-body-row-selected');
-            var detail = $('#fnet_mess_views_f0_index div.filtered_data_detail');
+            var detail = $('#fnet_mess_views_f0_index div.detail');
             var content = row.attr('data-content');
             var html = $('<textarea />').html(content).text()
             detail.html(html);
@@ -83,7 +83,7 @@
                 var rqp = eval('(' + span.attr('data-rqp') + ')');
                 rqp.SessionId = Nskd.Server.SessionId;
                 rqp.Command = 'Fnet.AdminPages.F0.Get';
-                alert(Nskd.Json.toString(rqp));
+                //alert(Nskd.Json.toString(rqp));
                 Nskd.Http.post({
                     url: url,
                     rqp: rqp,

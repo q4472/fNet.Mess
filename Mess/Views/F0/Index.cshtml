@@ -8,7 +8,7 @@
         bottom: 0;
     }
 
-        #fnet_mess_views_f0_index div.section-header {
+        #fnet_mess_views_f0_index div.header {
             position: absolute;
             left: 0;
             top: 0;
@@ -22,99 +22,74 @@
             border-bottom: 2px solid green;
         }
 
-        #fnet_mess_views_f0_index div.section-filter {
+        #fnet_mess_views_f0_index div.body {
             position: absolute;
             left: 0;
             top: 26px;
-            width: 240px;
             right: 0;
             bottom: 0;
-            float: left;
-            overflow: auto;
-            padding: 2px;
         }
 
-            #fnet_mess_views_f0_index div.section-filter table tr {
-                height: 40px;
+            #fnet_mess_views_f0_index div.body div.left {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 240px;
+                bottom: 0;
+                border-right: 2px solid green;
             }
 
-            #fnet_mess_views_f0_index div.section-filter table td {
-                padding: 2px;
+                #fnet_mess_views_f0_index div.body div.left div.filter {
+                    width: 100%;
+                    border-bottom: 2px solid green;
+                }
+
+                #fnet_mess_views_f0_index div.body div.left div.command {
+                    width: 100%;
+                    margin-top: 20px;
+                    text-align: center;
+                }
+
+            #fnet_mess_views_f0_index div.body div.right {
+                position: absolute;
+                left: 242px;
+                right: 0;
+                height: 100%;
             }
 
-        #fnet_mess_views_f0_index div.section-filtered_data {
-            border-left: 2px solid green;
-            position: absolute;
-            left: 240px;
-            top: 26px;
-            right: 0;
-            bottom: 0;
-            overflow: auto;
-        }
+                #fnet_mess_views_f0_index div.body div.right div.data {
+                    width: 100%;
+                    height: 400px;
+                }
 </style>
 <div id="fnet_mess_views_f0_index">
-    <div class="section-header"><span>Журнал сообщений</span></div>
-    <div class="section-filter">
-        <div style="width: 100%; text-align: center;">
-            <span style="font-size: 11pt; font-weight: bold;">Фильтр</span>
-            <br />
-            <br />
-            <table style="width: 100%; text-align: left;">
-                <tr>
-                    <td>Все</td>
-                    <td colspan="2"><input type="checkbox" name="все" /></td>
-                </tr>
-                <tr>
-                    <td>Дата</td>
-                    <td><input type="text" name="дата_min" class="datepicker" style="width: 60px;" /></td>
-                    <td><input type="text" name="дата_max" class="datepicker" style="width: 60px;" /></td>
-                </tr>
-                <tr>
-                    <td>Отправитель</td>
-                    <td colspan="2"><input type="text" name="отправитель" style="width: 130px;" /></td>
-                </tr>
-                <tr>
-                    <td>Тема</td>
-                    <td colspan="2"><input type="text" name="тема" style="width: 130px;" /></td>
-                </tr>
-                <tr>
-                    <td>Содержание</td>
-                    <td colspan="2"><input type="text" name="содержание" style="width: 130px;" /></td>
-                </tr>
-            </table>
-            <br />
-            <input type="button" value="Применить" onclick="FnetMessF0Index.applyFilter(this);" style="font-size: 11pt;" />
+    <div class="header"><span>Журнал сообщений</span></div>
+    <div class="body">
+        <div class="left">
+            <div class="filter">
+                @RenderPage("~/Views/F0/Filter.cshtml")
+            </div>
+            <div class="command">
+                <input type="button" value="Сохранить" onclick="FnetMessViewsF0Index.save(this);" style="font-size: 11pt;" />
+            </div>
         </div>
-        <br /><br />
-        <div style="width: 100%; text-align: center; border-top: 2px solid green;">
-            <br /><br />
-            <input type="button" value="Сохранить" onclick="FnetMessF0Index.save(this);" style="font-size: 11pt;" />
+        <div class="right">
+            <div class="data">
+                <div class="table" style="height: 100%; overflow: auto; border-bottom: 2px solid green;">
+                    @RenderPage("~/Views/F0/Table.cshtml", Model)
+                </div>
+                <div class="detail" style="padding: 2px;"></div>
+            </div>
         </div>
-    </div>
-    <div class="section-filtered_data">
-        <table style="width: 100%; height: 100%;">
-            <tr>
-                <td style="height: 400px;">
-                    <div class="filtered_data_table" style="height: 400px; overflow: auto; border-bottom: 2px solid green;">
-                        @RenderPage("~/Views/F0/Table.cshtml", Model)
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="filtered_data_detail"></div>
-                </td>
-            </tr>
-        </table>
     </div>
 </div>
 <script type="text/javascript">
-    var FnetMessF0Index = (function () {
+    var FnetMessViewsF0Index = (function () {
         var mainDiv = $('#fnet_mess_views_f0_index');
-        var sectionFilter = mainDiv.find('div.section-filter');
-        var sectionFilteredData = mainDiv.find('div.section-filtered_data');
-        var filteredDataTable = sectionFilteredData.find('div.filtered_data_table');
-        var filteredDataDetail = sectionFilteredData.find('div.filtered_data_detail');
+        var filter = mainDiv.find('div.filter');
+        var data = mainDiv.find('div.data');
+        var table = data.find('div.table');
+        var detail = data.find('div.detail');
 
         $.datepicker.setDefaults({ dateFormat: 'dd.mm.y' });
         $('input.datepicker').datepicker();
@@ -127,7 +102,7 @@
                     Command: 'Mess.F0.ApplyFilter',
                     Parameters: []
                 };
-                sectionFilter.find('input[name]').each(function (index, element) {
+                filter.find('input[name]').each(function (index, element) {
                     if (element.type == 'checkbox') {
                         rqp.Parameters.push({ Name: element.name, Value: $(element).prop('checked') });
                     } else if (element.type == 'text' && element.value) {
@@ -140,13 +115,13 @@
                         }
                     }
                 });
-                filteredDataTable.html('');
-                filteredDataDetail.html('');
+                table.html('');
+                detail.html('');
                 Nskd.Http.post({
                     url: '/mess/f0/applyfilter',
                     rqp: rqp,
                     done: function (data) {
-                        filteredDataTable.html(data);
+                        table.html(data);
                         $(element).show();
                     }
                 });
@@ -158,19 +133,19 @@
                     Command: 'Mess.F0.Save',
                     Parameters: []
                 };
-                filteredDataTable.find('input[data-modified="1"]').each(function () {
+                table.find('input[data-modified="1"]').each(function () {
                     var uid = $(this).closest('tr').attr('data-uid');
                     var name = this.name;
                     var value = $(this).prop('checked');
                     rqp.Parameters.push({ Name: uid + name, Value: value });
                 });
-                filteredDataTable.html('');
-                filteredDataDetail.html('');
+                table.html('');
+                detail.html('');
                 Nskd.Http.post({
                     url: '/mess/f0/save',
                     rqp: rqp,
                     done: function (data) {
-                        FnetMessF0Index.applyFilter();
+                        FnetMessViewsF0Index.applyFilter();
                         $(element).show();
                     }
                 });
