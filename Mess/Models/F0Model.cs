@@ -17,8 +17,6 @@ namespace FNet.Mess.Models
             public String получатель;
             public String тема;
             public String содержание;
-            public String url;
-            public String rqp;
             public static ItemArray Create(DataRow dr)
             {
                 ItemArray items = new ItemArray
@@ -30,9 +28,7 @@ namespace FNet.Mess.Models
                     отправитель = (dr["отправитель"] == DBNull.Value) ? "" : (String)dr["отправитель"],
                     получатель = (dr["получатель"] == DBNull.Value) ? "" : (String)dr["получатель"],
                     тема = (dr["тема"] == DBNull.Value) ? "" : (String)dr["тема"],
-                    содержание = (dr["содержание"] == DBNull.Value) ? "" : (String)dr["содержание"],
-                    url = (dr["url"] == DBNull.Value) ? "" : (String)dr["url"],
-                    rqp = (dr["rqp"] == DBNull.Value) ? "" : (String)dr["rqp"]
+                    содержание = (dr["содержание"] == DBNull.Value) ? "" : (String)dr["содержание"]
                 };
                 return items;
             }
